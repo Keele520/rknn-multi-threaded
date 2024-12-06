@@ -35,9 +35,9 @@ while (cap.isOpened()):
     frame, flag = pool.get()
     if flag == False:
         break
-    cv2.imshow('test', frame)
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        break
+    # cv2.imshow('test', frame)
+    # if cv2.waitKey(1) & 0xFF == ord('q'):
+    #     break
     if frames % 30 == 0:
         print("30帧平均帧率:\t", 30 / (time.time() - loopTime), "帧")
         loopTime = time.time()
@@ -45,5 +45,5 @@ while (cap.isOpened()):
 print("总平均帧率\t", frames / (time.time() - initTime))
 # 释放cap和rknn线程池
 cap.release()
-cv2.destroyAllWindows()
+# cv2.destroyAllWindows()
 pool.release()
