@@ -1,10 +1,12 @@
-import cv2
+import cv2,os
 import time
 from rknnpool import rknnPoolExecutor
 # 图像处理函数，实际应用过程中需要自行修改
 from func import myFunc
 
-cap = cv2.VideoCapture('./720p60hz.mp4')
+# cap = cv2.VideoCapture('./720p60hz.mp4')
+os.environ["OPENCV_FFMPEG_CAPTURE_OPTIONS"] = "rtsp_transport;udp"
+cap = cv2.VideoCapture("rtsp://admin:Flink0164199907@192.168.100.84:554/ch_400", cv2.CAP_FFMPEG)
 # cap = cv2.VideoCapture(0)
 modelPath = "./rknnModel/yolov5s_relu_tk2_RK3588_i8.rknn"
 # 线程数, 增大可提高帧率
@@ -38,6 +40,11 @@ while (cap.isOpened()):
     # cv2.imshow('test', frame)
     # if cv2.waitKey(1) & 0xFF == ord('q'):
     #     break
+    if not os.path.exists('./result'):
+        os.mkdir('./result')
+    result_path = os.path.join('./result', 'img_result.jpg')
+    cv2.imwrite(result_path, frame)
+
     if frames % 30 == 0:
         print("30帧平均帧率:\t", 30 / (time.time() - loopTime), "帧")
         loopTime = time.time()
